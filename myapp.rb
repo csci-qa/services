@@ -2,22 +2,20 @@ require 'sinatra'
 require 'json'
 
 enable :sessions
-
+list = ['paint the barn', 'water the corn', 'feed the hogs', 'fix the car']
 get '/todos' do
   content_type :json
-  session[:list] = ['paint the barn', 'water the corn', 'feed the hogs', 'fix the car']
-  session[:list].to_json
-
+  list.to_json
 end
 
 post '/todos' do
   content_type :json
-  session[:list] = ['paint the barn', 'water the corn', 'feed the hogs', 'fix the car', 'wash the dog']
-  session[:list].to_json
+  list << params[:data]
+  list.to_json
 end
 
-delete '/todos' do
+delete '/todos/:index' do
   content_type :json
-  session[:list] = ['feed the hogs', 'fix the car', 'wash the dog']
-  session[:list].to_json
+  list.delete_at(params[:index].to_i)
+  list.to_json
 end
