@@ -1,15 +1,21 @@
 require 'sinatra'
 require 'json'
 
-get '/example' do
+enable :sessions
+list = ['paint the barn', 'water the corn', 'feed the hogs', 'fix the car']
+get '/todos' do
   content_type :json
-  result = [
-      'this', 'is', 'a', 'list'
-  ]
-  result.to_json
+  list.to_json
 end
 
-get '/another_example' do
+post '/todos' do
   content_type :json
-  {a: 1, b: 2, c: 3}.to_json
+  list << params[:data]
+  list.to_json
+end
+
+delete '/todos/:index' do
+  content_type :json
+  list.delete_at(params[:index].to_i)
+  list.to_json
 end
