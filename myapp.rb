@@ -6,13 +6,13 @@ todoList = TodoList.new
 
 
 get '/todo' do
-  # content_type :json
+
   todos = todoList.get_todos
   todos.to_json
 end
 
 post '/todo' do
-  # content_type :json
+
   list_item = params[:data]
   todos = todoList.add_todo(list_item)
   todos.to_json
