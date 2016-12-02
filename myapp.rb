@@ -1,15 +1,26 @@
 require 'sinatra'
 require 'json'
+require_relative 'lib/todo_list'
+enable :sessions
+todoList = TodoList.new
 
-get '/example' do
-  content_type :json
-  result = [
-      'this', 'is', 'a', 'list'
-  ]
-  result.to_json
+
+get '/todo' do
+
+  todos = todoList.get_todos
+  todos.to_json
 end
 
-get '/another_example' do
-  content_type :json
-  {a: 1, b: 2, c: 3}.to_json
+post '/todo' do
+
+  list_item = params[:data]
+  todos = todoList.add_todo(list_item)
+  todos.to_json
 end
+
+delete '/todo/:index' do
+  todoList.remove_todo(params['index'].to_i)
+  []
+end
+
+
