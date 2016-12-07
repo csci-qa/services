@@ -1,15 +1,21 @@
 require 'sinatra'
-require 'json'
+require 'JSON'
 
-get '/example' do
-  content_type :json
-  result = [
-      'this', 'is', 'a', 'list'
-  ]
-  result.to_json
+todo_list = Array.new
+
+get '/todo' do
+    return todo_list.to_json
 end
 
-get '/another_example' do
-  content_type :json
-  {a: 1, b: 2, c: 3}.to_json
+post '/todo' do
+  list_item = params[:data]
+  todo_list << list_item #put list_item on todo_list
+  return list_item.to_json
 end
+
+delete '/todo/:index' do
+  todo_list.delete_at(params['index'].to_i)
+end
+
+
+
